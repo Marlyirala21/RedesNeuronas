@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/RedesNeuronas.iml" filepath="$PROJECT_DIR$/.idea/RedesNeuronas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../aprendiendoPython1/.idea/aprendiendoPython1.iml" filepath="$PROJECT_DIR$/../aprendiendoPython1/.idea/aprendiendoPython1.iml" />
     </modules>
   </component>
 </project>
