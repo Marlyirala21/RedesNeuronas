@@ -34,7 +34,7 @@ def entrenamiento(wi,b):
             y = np.dot(entradas[i, :], wi) + b
             #ajuste de pesos y umbral/bias
             eFila = (d[i] - y) #error actual de cada fila
-            wi = np.abs(wi + (factAprendizaje * eFila * entradas[i,:]) )#los nuevos pesos para la siguiente iteracion
+            wi = wi + (factAprendizaje * eFila * entradas[i,:]) #los nuevos pesos para la siguiente iteracion
             b = factAprendizaje * eFila
             # calculamos el error acumulado para posteriormente calcular el mse
             eAcumulado = eAcumulado + pow(eFila, 2)
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     nV = len(dV)#154
     nT = len(dT)#155
     #bias
-    b = np.abs(random.uniform(0, 1))
+    b = random.uniform(0, 1)
     #ECM
     eCMV = []
     eCME = []
