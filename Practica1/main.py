@@ -1,5 +1,4 @@
 import os
-
 import numpy as np
 import pandas as pd
 import random
@@ -61,21 +60,32 @@ def validacion(wAjustado, bAjustado):
 
 
 def entrenamiento_Validacion(wi, b):
-        ciclos=1500#numero de ciclos q quieres para la parada
+        evMinimo=1
+        cicloOptimo=0
+        pesosOptimos = []
+        ciclos=1000#numero de ciclos q quieres para la parada
         wi, bi, mseE = entrenamiento(wi, b)
         for i in range (ciclos):
             mseV = validacion(wi, b)
             eCMV.append(mseV)
             wi, bi, mseE = entrenamiento(wi, b)
             eCME.append(mseE)
-        return eCME, eCMV
+            if mseV<evMinimo:
+                evMinimo=mseV
+                cicloOptimo = i
+                pesosOptimos= wi
+
+
+        return eCME, eCMV, evMinimo, cicloOptimo, pesosOptimos
+
+
 
 def fTest():
         eFilaT = 0
         mseT = 0
         eAcumuladoT = 0
         for i in range (nT):
-            yT = np.dot(entradasT[i], wi) #************PREGUNTAR SI ESTA BIEN******************** #
+            yT = np.dot(entradasT[i], wi)
             #Ahora calculamos el error cuadratico medio
             eFilaT= dT[i]-yT
             eAcumuladoT =eAcumuladoT + (pow(eFilaT,2))
@@ -100,7 +110,7 @@ if __name__ == '__main__':
     #vector pesos w
     wi = np.random.rand(8)
     #factor de aprendizaje
-    factAprendizaje = 0.01
+    factAprendizaje = 0.001
     #numero de muestras
     n = len(d) #721
     nV = len(dV)#154
@@ -111,12 +121,13 @@ if __name__ == '__main__':
     eCMV = []
     eCME = []
 
-    errorE, errorV = entrenamiento_Validacion(wi,b)
+
+    errorE, errorV, evM, ciclo, pesos = entrenamiento_Validacion(wi,b)
     print("mseE: " + str(errorE) + "\nmseV: " + str(errorV))
+    print ('evM, ciclo y pesos son : ',evM, ciclo, pesos)
 
-
-    plt.plot(errorE, color='blue', marker='.', linewidth=2, markersize=10, label ='ECME')
-    plt.plot(errorV, color='red', marker='.', linewidth=2, markersize=10, label ='ECME')
+    plt.plot(errorE, color='blue', marker='.', linewidth=1, markersize=0, label ='ECME')
+    plt.plot(errorV, color='red', marker='.', linewidth=1, markersize=0, label ='ECME')
     plt.show()
      
 ###BIAS Y PESO EN VALOR ABSOLUTO
