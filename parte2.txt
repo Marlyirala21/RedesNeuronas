@@ -1,0 +1,13 @@
+PARTE2
+utilizando el script y el paquete de R
+diferencia con el adaline: el perceptron añade una funcion a la salida de la neurona, ahora la salida ya no es y, es la función de y [f(y)]. 
+Cuando tenemos varias capas es cuando nos hace efecto la función. 
+Vamos a utilizar muchas perceptrones apilados en diferentes capas
+cada neurona tiene unos pesos diferentes.
+Normalmente se utiliza la misma funcion de activacion en todas las capas menos en la ultima que se suele cambiar.
+
+LENGUAJE R
+tener los datos separados
+el script y los datos tienen que estar en el mismo directorio
+configurar el directorio
+ejecutar el install.packages... dentro de la consola

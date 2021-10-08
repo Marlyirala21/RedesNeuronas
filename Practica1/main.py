@@ -61,7 +61,7 @@ def validacion(wAjustado, bAjustado):
 
 
 def entrenamiento_Validacion(wi, b):
-        ciclos=1500#numero de ciclos q quieres para la parada
+        ciclos=500#numero de ciclos q quieres para la parada
         wi, bi, mseE = entrenamiento(wi, b)
         for i in range (ciclos):
             mseV = validacion(wi, b)
@@ -115,8 +115,8 @@ if __name__ == '__main__':
     print("mseE: " + str(errorE) + "\nmseV: " + str(errorV))
 
 
-    plt.plot(errorE, color='blue', marker='.', linewidth=2, markersize=10, label ='ECME')
-    plt.plot(errorV, color='red', marker='.', linewidth=2, markersize=10, label ='ECME')
+    plt.plot(errorE, color='blue', marker='.', linewidth=2,markersize = 0, label ='ECME')
+    plt.plot(errorV, color='red', marker='.', linewidth=2, markersize = 0, label ='ECMV')
     plt.show()
      
 ###BIAS Y PESO EN VALOR ABSOLUTO
