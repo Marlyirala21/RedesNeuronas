@@ -1,5 +1,3 @@
-import os
-
 import numpy as np
 import pandas as pd
 import random
@@ -39,7 +37,7 @@ def entrenamiento(wi,b):
             # calculamos el error acumulado para posteriormente calcular el mse
             eAcumulado = eAcumulado + pow(eFila, 2)
 
-            #calculamos el error cuadrático medio de cada ciclo
+        #calculamos el error cuadrático medio de cada ciclo
         mse = ((1/n) * eAcumulado)
         return wi, b, mse
 
@@ -49,7 +47,6 @@ def validacion(wAjustado, bAjustado):
         eFilaV=0
         mseV=0
         eAcumuladoV=0
-
         for i in range(nV):
             #calculamos la salida de cada patrón
             yV = np.dot(entradasV[i,:], wAjustado) + bAjustado
@@ -61,28 +58,44 @@ def validacion(wAjustado, bAjustado):
 
 
 def entrenamiento_Validacion(wi, b):
-        ciclos=500#numero de ciclos q quieres para la parada
+    evMinimo = 1 #error validacion minimo
+    cicloOptimo = 0
+    pesosOptimos = []
+    biasOptimo = 0
+    ciclos = 1000
+    numCiclo = []
+    wi, bi, mseE = entrenamiento(wi, b)
+    for i in range(ciclos):
+        mseV = validacion(wi, b)
+        eCMV.append(mseV)
         wi, bi, mseE = entrenamiento(wi, b)
-        for i in range (ciclos):
-            mseV = validacion(wi, b)
-            eCMV.append(mseV)
-            wi, bi, mseE = entrenamiento(wi, b)
-            eCME.append(mseE)
-        return eCME, eCMV
+        eCME.append(mseE)
+        numCiclo.append(i)
+        if mseV < evMinimo:
+            evMinimo = mseV
+            cicloOptimo = i
+            pesosOptimos = wi
+            biasOptimo = bi
 
-def fTest():
+    return eCME, eCMV, numCiclo, evMinimo, cicloOptimo, pesosOptimos, biasOptimo
+
+def fTest(wOptimo,bOptimo): #wT y bT es el peso y bias que guardamos al hacer la validacion
         eFilaT = 0
         mseT = 0
         eAcumuladoT = 0
-        for i in range (nT):
-            yT = np.dot(entradasT[i], wi) #************PREGUNTAR SI ESTA BIEN******************** #
+        salidasTest = []
+        numPatron = []
+        for i in range(nT):
+            yTest = np.dot(entradasT[i], wOptimo) + bOptimo
             #Ahora calculamos el error cuadratico medio
-            eFilaT= dT[i]-yT
-            eAcumuladoT =eAcumuladoT + (pow(eFilaT,2))
-            mseT = ((1/nV) * eAcumuladoT)
+            eFilaT= dT[i]-yTest
+            eAcumuladoT = eAcumuladoT + (pow(eFilaT,2))
+            salidasTest.append(yTest)
+            numPatron.append(i)
+        mseT = ((1/nT) * eAcumuladoT)
+        return mseT, salidasTest, numPatron
 
-        print('el modelo tiene un eCM de test de:  ',str(mseT))
-        return mseT
+
 
 if __name__ == '__main__':
     #convertimos los datos en una matriz
@@ -111,16 +124,33 @@ if __name__ == '__main__':
     eCMV = []
     eCME = []
 
-    errorE, errorV = entrenamiento_Validacion(wi,b)
-    print("mseE: " + str(errorE) + "\nmseV: " + str(errorV))
+    eCME, eCMV, numCiclo, evMinimo, cicloOptimo, pesosOptimos, biasOptimo = entrenamiento_Validacion(wi,b)
+    eCMT, salidasTest, numPatron = fTest(pesosOptimos, biasOptimo)
+    print(salidasTest)
+    #creamos el fichero con las salidas de la red
+    with open('salidasTest.txt', 'w') as yTest:
+        for item in numPatron:
+            yTest.write( "Patron " + str(item) + ": " + "%s\n" % salidasTest[item])
 
 
-    plt.plot(errorE, color='blue', marker='.', linewidth=2,markersize = 0, label ='ECME')
-    plt.plot(errorV, color='red', marker='.', linewidth=2, markersize = 0, label ='ECMV')
+    #creamos un dataframe para ver los diferentes errores de entrenamiento y validacion en cada ciclo
+    df = pd.DataFrame(list(zip(numCiclo,eCME, eCMV)), columns = ['numCiclos', 'errorEntrenamiento','errorValidacion'])
+
+    #imprimimos los valores
+    print(df)
+    print("El nº de ciclos óptimos es: " + str(cicloOptimo))
+    print("Los pesos óptimos son: " + str(pesosOptimos))
+    print("El bias óptimo es: " + str(biasOptimo))
+    print("El error de test es: " + str(eCMT))
+
+    # gráfica
+    plt.plot(eCME, color='blue', marker='.', linewidth=2, markersize=0, label='ECME')
+    plt.plot(eCMV, color='red', marker='.', linewidth=2, markersize=0, label='ECMV')
     plt.show()
-     
-###BIAS Y PESO EN VALOR ABSOLUTO
-#QUE FACTOR DE APRENDIZAJE
+
+
+
+
 
 
 
