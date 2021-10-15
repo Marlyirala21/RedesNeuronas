@@ -16,9 +16,9 @@ dfRandom = df.sample(frac=1)
 train, validate, test = np.split(dfRandom, [int(.7*len(df)), int(.85*len(df))])
 
 # creamos los archivos correspondientes
-train.to_csv("train.csv")
-validate.to_csv("validate.csv")
-test.to_csv("test.csv")
+train.to_csv("train.csv", index = False)
+validate.to_csv("validate.csv", index = False)
+test.to_csv("test.csv", index = False)
 
 def entrenamiento(wi,b):
         e = 0
