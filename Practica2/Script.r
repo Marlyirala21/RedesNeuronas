@@ -16,8 +16,8 @@ MSE <- function(pred,obs) {sum((pred-obs)^2)/length(obs)}
 # se supone que los ficheros tienen encabezados
 # si no los tienen, cambiar header a F
  trainSet <- read.csv("train.csv",dec=".",sep=",",header = T)
- validSet <- read.csv( "Valid.csv",dec=".",sep=",",header = T)
- testSet  <- read.csv("Test.csv",dec=".",sep=",",header = T)
+ validSet <- read.csv( "validate.csv",dec=".",sep=",",header = T)
+ testSet  <- read.csv("test.csv",dec=".",sep=",",header = T)
 
 
 
