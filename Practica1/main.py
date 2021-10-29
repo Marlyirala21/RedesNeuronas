@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import random
 import matplotlib.pyplot as plt
-import sklearn
-from sklearn.preprocessing import MinMaxScaler
+
 
 
 
@@ -88,7 +87,7 @@ if __name__ == '__main__':
     dataT = test.to_numpy()
 
     # factor de aprendizaje
-    factAprendizaje = 0.003
+    factAprendizaje = 0.01
 
     #variables de entrada de los datos
     entradasE = dataE[:, 0:8]
@@ -127,8 +126,6 @@ if __name__ == '__main__':
 
     #numero de ciclos
     numCiclo = []
-
-    #valores maximos y minimos del df original
 
     #ciclo principal
     for i in range(ciclos):
