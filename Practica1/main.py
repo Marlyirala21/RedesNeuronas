@@ -144,7 +144,7 @@ if __name__ == '__main__':
             pesosOptimos = wi
             biasOptimo = bi
 
-    #error de Test
+   #error de test
     eCMT, salidasTest, numPatron = fTest(pesosOptimos, biasOptimo)
 
     # creamos fichero de salidas con los pesos y bias optimos
